@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028326, g: 0.22571333, b: 0.30692202, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -445,6 +445,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7714924582192087156, guid: 6518abbd4c55c497e9844f5c5b9be936, type: 3}
       propertyPath: name
+      value: Apple
+      objectReference: {fileID: 0}
+    - target: {fileID: 7714924582192087156, guid: 6518abbd4c55c497e9844f5c5b9be936, type: 3}
+      propertyPath: _name
       value: Apple
       objectReference: {fileID: 0}
     - target: {fileID: 7714924582192087156, guid: 6518abbd4c55c497e9844f5c5b9be936, type: 3}
