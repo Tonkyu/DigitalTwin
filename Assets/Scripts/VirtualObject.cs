@@ -24,7 +24,7 @@ public class VirtualObject : MonoBehaviour
         SetWeight(info.weight);
     }
 
-    public void SetWeight(string weight)
+    private void SetWeight(string weight)
     {
         _textWeight.text = "Weight: " + weight;
     }

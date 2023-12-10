@@ -31,10 +31,10 @@ public class Receiver : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // IPEndPoint remoteEP = null;
-        // byte[] data = udp.Receive(ref remoteEP);
-        // string jsonText = Encoding.UTF8.GetString(data);
-        string jsonText = "{\"name\": \"apple\", \"weight\": 500.0}";
+        IPEndPoint remoteEP = null;
+        byte[] data = udp.Receive(ref remoteEP);
+        string jsonText = Encoding.UTF8.GetString(data);
+        // string jsonText = "{\"name\": \"apple\", \"weight\": 500.0}";
         ObjectInfo info = JsonUtility.FromJson<ObjectInfo>(jsonText);
         objects[0].LoadInfo(info);
     }
