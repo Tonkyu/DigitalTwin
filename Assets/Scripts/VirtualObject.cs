@@ -25,6 +25,7 @@ public class VirtualObject : MonoBehaviour
         Debug.Log("weight:\t" + info.weight);
         Debug.Log("resistor:\t" + info.resistor);
         SetWeight(info.weight);
+        SetResistor(info.resistor);
     }
 
     private void SetWeight(string weight)
