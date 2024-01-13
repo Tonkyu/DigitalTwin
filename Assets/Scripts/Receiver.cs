@@ -10,6 +10,7 @@ public class ObjectInfo // match with object_info.py
 {
 	public string name;
 	public string weight;
+    public string resistor;
 }
 
 
