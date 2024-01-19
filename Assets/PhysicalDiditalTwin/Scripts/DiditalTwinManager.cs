@@ -16,9 +16,11 @@ namespace DigitalTwin
     }
 
 
+
+
     public class DiditalTwinManager : MonoBehaviour
     {
-
+        static SynchronizationContext _mainContext;
         static UdpClient udp;
         IPEndPoint remoteEP = null;
         static DiditalTwinObject[] objects = null;
@@ -30,6 +32,9 @@ namespace DigitalTwin
         void Start()
         {
             isReceiving = true;
+            Debug.Log($"Main thread ID : " + Thread.CurrentThread.ManagedThreadId);
+            _mainContext = SynchronizationContext.Current;
+
 
             int LOCAL_PORT = 50007;
             udp = new UdpClient(LOCAL_PORT);
@@ -49,7 +54,7 @@ namespace DigitalTwin
             thread.Start();
         }
 
-        private static void ThreadMethod()
+        private static void ThreadMethod()//Task.Run()と同じ
         {
             while (isReceiving)
             {
@@ -59,6 +64,7 @@ namespace DigitalTwin
                     byte[] data = udp.Receive(ref remoteEP);
                     string jsonText = Encoding.UTF8.GetString(data);
                     Debug.Log(jsonText);
+                    Debug.Log($"json thread ID : " + Thread.CurrentThread.ManagedThreadId);
                     // string jsonText = "{\"name\": \"apple\", \"weight\": 500.0}";
                     ObjectInfo info = JsonUtility.FromJson<DigitalTwin.ObjectInfo>(jsonText);
                     string objName = info.name;
@@ -66,7 +72,7 @@ namespace DigitalTwin
                     {
                         if (obj.GetName() == objName)
                         {
-                            obj.LoadInfo(info);
+                            _mainContext.Post(_ => obj.LoadInfo(info), null);//mainthreadで実行,Unityではメインスレッド以外で実行できないメソッドがある
                         }
                     }
 

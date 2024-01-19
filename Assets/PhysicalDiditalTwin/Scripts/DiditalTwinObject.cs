@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using DigitalTwin;
+using System.Threading;
+
 
 public class DiditalTwinObject : MonoBehaviour
 {
@@ -31,7 +33,7 @@ public class DiditalTwinObject : MonoBehaviour
         return _resistor;
     }
 
-    public void setResistor(float res)
+    public void SetResistor(float res)
     {
         _resistor = res;
     }
@@ -41,7 +43,8 @@ public class DiditalTwinObject : MonoBehaviour
         if (_resistor < 1000.0f)
         {
             _isConduct = true;
-        }else
+        }
+        else
         {
             _isConduct = false;
         }
@@ -55,21 +58,11 @@ public class DiditalTwinObject : MonoBehaviour
         return _weight;
     }
 
-    // public void setWeight(float weight)
-    // {
-    //     _weight = weight;
-    // }
-    
     [SerializeField] TextMeshPro _textName = default;
     [SerializeField] TextMeshPro _textWeight = default;
     [SerializeField] TextMeshPro _textResistor = default;
 
     private ParticleSystem effect = default;
-
-    private ObjectInfo _info = default;
-    private bool isUpdated = true;
-
-
 
     // Start is called before the first frame update
     void Start()
@@ -82,7 +75,8 @@ public class DiditalTwinObject : MonoBehaviour
         effect = GameObject.Find("Effect").gameObject.GetComponentInChildren<ParticleSystem>();
     }
 
-    public void Update(){
+    public void Update()
+    {
         if (Input.GetKeyDown(KeyCode.Space))
         {
             UpdatedEffect();
@@ -91,22 +85,14 @@ public class DiditalTwinObject : MonoBehaviour
 
     public void LoadInfo(ObjectInfo info)
     {
+        Debug.Log($"LoadINfo thread ID : " + Thread.CurrentThread.ManagedThreadId);
+
         Debug.Log("name:\t" + info.name);
         Debug.Log("weight:\t" + info.weight);
         Debug.Log("resistor:\t" + info.resistor);
-        _info = info;
-        isUpdated = false;
-    }
-
-    private void FixedUpdate()
-    {
-        if (!isUpdated)
-        {
-            SetWeight(_info.weight);
-            SetResistor(_info.resistor);
-            UpdatedEffect();
-            isUpdated = true;
-        }
+        SetWeight(info.weight);
+        SetResistor(info.resistor);
+        UpdatedEffect();
     }
 
     private void SetWeight(string weight)
