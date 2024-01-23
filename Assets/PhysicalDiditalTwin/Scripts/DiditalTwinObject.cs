@@ -40,7 +40,7 @@ public class DiditalTwinObject : MonoBehaviour
     public bool GetIsConduct()
     {
         bool _isConduct = false;
-        if (_resistor < 1000.0f)
+        if (_resistor < 2000.0f)
         {
             _isConduct = true;
         }
@@ -64,6 +64,8 @@ public class DiditalTwinObject : MonoBehaviour
 
     private ParticleSystem effect = default;
 
+    private Rigidbody _rigidbody = default;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -73,6 +75,9 @@ public class DiditalTwinObject : MonoBehaviour
 
         //シーン中からeffect/particle systemを取得
         effect = GameObject.Find("Effect").gameObject.GetComponentInChildren<ParticleSystem>();
+
+        //rigidbodyを取得
+        _rigidbody = GetComponent<Rigidbody>();
     }
 
     public void Update()
@@ -100,6 +105,8 @@ public class DiditalTwinObject : MonoBehaviour
         //weightを数値にする
         float.TryParse(weight, out _weight);
         _textWeight.text = "Weight: " + weight;
+        //rigidbodyのmassを変更
+        _rigidbody.mass = _weight/1000.0f;
     }
 
     private void SetResistor(string resistor)
@@ -112,7 +119,9 @@ public class DiditalTwinObject : MonoBehaviour
     private void UpdatedEffect()
     {
         Debug.Log("UpdatedEffect");
-        effect.transform.position = transform.position + new Vector3(0, 1.0f, 0);
+        // effect.transform.position = transform.position + new Vector3(0, 0.03f, 0);
+        //ローカル座標系で3cm上
+        effect.transform.position = transform.position + transform.rotation * new Vector3(0, 0.0f, 0.06f);
         effect.Play();
     }
 }
